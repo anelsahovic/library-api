@@ -7,12 +7,8 @@ import {
   getBooks,
   updateBook,
 } from '../services/books';
-import {
-  CreateBookBody,
-  DeleteBookParams,
-  UpdateBookBody,
-  UpdateBookParams,
-} from '../types';
+import { DeleteBookParams, UpdateBookParams } from '../types';
+import { CreateBookBody, UpdateBookBody } from '../zodSchemas/schemas';
 
 export const index: RequestHandler = async (req, res, next) => {
   try {
@@ -73,12 +69,12 @@ export const update: RequestHandler<
     if (!name || !authorId || !genreId || !publisherId)
       throw createHttpError(400, 'Please fill out all the required fields.');
 
-    if (!bookIdToUpdate)
-      throw createHttpError(404, 'Please provide book to update.');
-
     if (isNaN(bookIdToUpdate)) {
       throw createHttpError(400, 'Invalid book ID provided.');
     }
+
+    if (!bookIdToUpdate)
+      throw createHttpError(404, 'Please provide book to update.');
 
     const newBookData = { name, description, authorId, genreId, publisherId };
     const updatedBook = await updateBook(bookIdToUpdate, newBookData);
@@ -100,12 +96,11 @@ export const destroy: RequestHandler<
   const bookIdToDelete = parseInt(req.params.bookId);
 
   try {
-    if (!bookIdToDelete)
-      throw createHttpError(404, 'Please provide book to delete.');
-
     if (isNaN(bookIdToDelete)) {
       throw createHttpError(400, 'Invalid book ID provided.');
     }
+    if (!bookIdToDelete)
+      throw createHttpError(404, 'Please provide book to delete.');
 
     await deleteBook(bookIdToDelete);
 

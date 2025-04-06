@@ -9,22 +9,6 @@ export interface Book {
   updatedAt: Date;
 }
 
-export interface CreateBookBody {
-  name: string;
-  description?: string;
-  authorId: number;
-  genreId: number;
-  publisherId: number;
-}
-
-export interface UpdateBookBody {
-  name: string;
-  description?: string;
-  authorId: number;
-  genreId: number;
-  publisherId: number;
-}
-
 export interface UpdateBookParams {
   bookId: string;
 }

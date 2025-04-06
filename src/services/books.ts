@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { CreateBookBody, UpdateBookBody } from '../types';
 import createHttpError from 'http-errors';
+import { CreateBookBody, UpdateBookBody } from '../zodSchemas/schemas';
 
 const prisma = new PrismaClient();
 
