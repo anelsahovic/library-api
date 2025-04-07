@@ -42,6 +42,15 @@ export async function createBook(book: CreateBookBody) {
   if (!existingPublisher)
     throw createHttpError(404, "Publisher doesn't exist.");
 
+  const existingBook = await prisma.book.findUnique({
+    where: {
+      name: book.name,
+    },
+  });
+
+  if (existingBook)
+    throw createHttpError(400, 'Book with that name already exists.');
+
   return await prisma.book.create({
     data: {
       name: book.name,

@@ -9,10 +9,26 @@ export interface Book {
   updatedAt: Date;
 }
 
+export interface ShowBookParams {
+  bookId: string;
+}
+
 export interface UpdateBookParams {
   bookId: string;
 }
 
 export interface DeleteBookParams {
   bookId: string;
+}
+
+export interface ShowAuthorParams {
+  authorId: string;
+}
+
+export interface UpdateAuthorParams {
+  authorId: string;
+}
+
+export interface DeleteAuthorParams {
+  authorId: string;
 }

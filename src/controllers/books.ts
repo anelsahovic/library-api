@@ -7,27 +7,37 @@ import {
   getBooks,
   updateBook,
 } from '../services/books';
-import { DeleteBookParams, UpdateBookParams } from '../types';
+import { DeleteBookParams, ShowBookParams, UpdateBookParams } from '../types';
 import { CreateBookBody, UpdateBookBody } from '../zodSchemas/schemas';
 
 export const index: RequestHandler = async (req, res, next) => {
   try {
     const books = await getBooks();
-    res.json(books);
+
+    if (!books) throw createHttpError(404, 'No books found.');
+
+    res.status(200).json(books);
   } catch (error) {
     console.error(error);
     next(error);
   }
 };
 
-export const show: RequestHandler = async (req, res, next) => {
+export const show: RequestHandler<
+  ShowBookParams,
+  unknown,
+  unknown,
+  unknown
+> = async (req, res, next) => {
   const bookId = parseInt(req.params.bookId);
   try {
+    if (isNaN(bookId)) throw createHttpError(400, 'Invalid Book ID.');
+
     const foundBook = await getBookById(bookId);
 
     if (!foundBook) throw createHttpError(404, 'Book not found.');
 
-    res.json(foundBook);
+    res.status(200).json(foundBook);
   } catch (error) {
     console.error(error);
     next(error);
@@ -43,8 +53,8 @@ export const store: RequestHandler<
   const { name, description, authorId, genreId, publisherId } = req.body;
 
   try {
-    if (!name || !authorId || !genreId || !publisherId)
-      throw createHttpError(400, 'Please fill out all the required fields.');
+    // if (!name || !authorId || !genreId || !publisherId)
+    //   throw createHttpError(400, 'Please fill out all the required fields.'); <- this validation is done by zod already
 
     const book = { name, description, authorId, genreId, publisherId };
     const newBook = await createBook(book);
@@ -66,15 +76,15 @@ export const update: RequestHandler<
   const { name, description, authorId, genreId, publisherId } = req.body;
 
   try {
-    if (!name || !authorId || !genreId || !publisherId)
-      throw createHttpError(400, 'Please fill out all the required fields.');
+    // if (!name || !authorId || !genreId || !publisherId)
+    //   throw createHttpError(400, 'Please fill out all the required fields.'); <- this validation is done by zod already
+
+    if (!bookIdToUpdate)
+      throw createHttpError(404, 'Please provide book to update.');
 
     if (isNaN(bookIdToUpdate)) {
       throw createHttpError(400, 'Invalid book ID provided.');
     }
-
-    if (!bookIdToUpdate)
-      throw createHttpError(404, 'Please provide book to update.');
 
     const newBookData = { name, description, authorId, genreId, publisherId };
     const updatedBook = await updateBook(bookIdToUpdate, newBookData);
@@ -96,11 +106,12 @@ export const destroy: RequestHandler<
   const bookIdToDelete = parseInt(req.params.bookId);
 
   try {
+    if (!bookIdToDelete)
+      throw createHttpError(404, 'Please provide book to delete.');
+
     if (isNaN(bookIdToDelete)) {
       throw createHttpError(400, 'Invalid book ID provided.');
     }
-    if (!bookIdToDelete)
-      throw createHttpError(404, 'Please provide book to delete.');
 
     await deleteBook(bookIdToDelete);
 
