@@ -95,6 +95,18 @@ export async function updateBook(bookId: number, bookUpdate: UpdateBookBody) {
   if (!existingPublisher)
     throw createHttpError(404, "Publisher doesn't exist.");
 
+  const bookWithSameName = await prisma.book.findFirst({
+    where: {
+      name: bookUpdate.name,
+      id: {
+        not: bookId,
+      },
+    },
+  });
+
+  if (bookWithSameName)
+    throw createHttpError(400, 'Book with that name already exists.');
+
   return await prisma.book.update({
     where: {
       id: bookId,

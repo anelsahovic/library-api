@@ -1,3 +1,4 @@
+// BOOK TYPES
 export interface Book {
   id: number;
   name: string;
@@ -20,7 +21,7 @@ export interface UpdateBookParams {
 export interface DeleteBookParams {
   bookId: string;
 }
-
+// AUTHOR TYPES
 export interface ShowAuthorParams {
   authorId: string;
 }
@@ -31,4 +32,17 @@ export interface UpdateAuthorParams {
 
 export interface DeleteAuthorParams {
   authorId: string;
+}
+
+// GENRE TYPES
+
+export interface ShowGenreParams {
+  genreId: string;
+}
+export interface UpdateGenreParams {
+  genreId: string;
+}
+
+export interface DeleteGenreParams {
+  genreId: string;
 }

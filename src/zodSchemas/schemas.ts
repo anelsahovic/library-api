@@ -95,3 +95,21 @@ export const updateAuthorSchema = z.object({
 });
 
 export type UpdateAuthorBody = z.infer<typeof updateAuthorSchema>;
+
+export const createGenreSchema = z.object({
+  name: z
+    .string()
+    .min(1, 'Genre name is required')
+    .max(30, 'Genre name can be max 30 characters'),
+});
+
+export type CreateGenreBody = z.infer<typeof createGenreSchema>;
+
+export const updateGenreSchema = z.object({
+  name: z
+    .string()
+    .min(1, 'Genre name is required')
+    .max(30, 'Genre name can be max 30 characters'),
+});
+
+export type UpdateGenreBody = z.infer<typeof updateGenreSchema>;

@@ -46,6 +46,18 @@ export async function updateAuthor(
 
   if (!existingAuthor) throw createHttpError(404, "Author doesn't exist.");
 
+  const authorWithSameName = await prisma.author.findFirst({
+    where: {
+      name: newAuthor.name,
+      id: {
+        not: authorIdToUpdate,
+      },
+    },
+  });
+
+  if (authorWithSameName)
+    throw createHttpError(400, 'Author with that name already exists.');
+
   return prisma.author.update({
     where: {
       id: authorIdToUpdate,

@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import booksRoutes from './routes/books';
 import authorsRoutes from './routes/authors';
+import genresRoutes from './routes/genres';
 import createHttpError, { isHttpError } from 'http-errors';
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(express.json());
 
 app.use('/api/books', booksRoutes);
 app.use('/api/authors', authorsRoutes);
+app.use('/api/genres', genresRoutes);
 
 app.use((req, res, next) => {
   next(createHttpError(404, 'Endpoint Not Found!'));
