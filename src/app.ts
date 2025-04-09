@@ -4,6 +4,7 @@ import booksRoutes from './routes/books';
 import authorsRoutes from './routes/authors';
 import genresRoutes from './routes/genres';
 import publishersRoutes from './routes/publishers';
+import favoritesRoutes from './routes/favorites';
 import authRoutes from './routes/auth';
 import createHttpError, { isHttpError } from 'http-errors';
 import session from 'express-session';
@@ -50,6 +51,7 @@ app.use('/api/books', booksRoutes);
 app.use('/api/authors', authorsRoutes);
 app.use('/api/genres', genresRoutes);
 app.use('/api/publishers', publishersRoutes);
+app.use('/api/favorites', favoritesRoutes);
 
 app.use((req, res, next) => {
   next(createHttpError(404, 'Endpoint Not Found!'));

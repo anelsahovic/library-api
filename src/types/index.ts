@@ -60,4 +60,12 @@ export interface DeletePublisherParams {
   publisherId: string;
 }
 
-// AUTH USER TYPES
+// FAVORITES TYPES
+
+export interface CreateFavoriteBody {
+  bookId: number;
+}
+
+export interface DeleteFavoriteParams {
+  bookId: string;
+}
