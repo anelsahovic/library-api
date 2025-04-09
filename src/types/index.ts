@@ -46,3 +46,18 @@ export interface UpdateGenreParams {
 export interface DeleteGenreParams {
   genreId: string;
 }
+
+// PUBLISHER TYPES
+
+export interface ShowPublisherParams {
+  publisherId: string;
+}
+export interface UpdatePublisherParams {
+  publisherId: string;
+}
+
+export interface DeletePublisherParams {
+  publisherId: string;
+}
+
+// AUTH USER TYPES
