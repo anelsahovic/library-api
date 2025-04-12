@@ -181,3 +181,38 @@ export const loginUserSchema = z.object({
 });
 
 export type LoginUserBody = z.infer<typeof loginUserSchema>;
+
+export const createReviewSchema = z.object({
+  comment: z
+    .string()
+    .max(500, 'Comment must be 500 characters or less')
+    .optional(),
+  rating: z
+    .number()
+    .int()
+    .min(1, 'Minimum rating is 1')
+    .max(5, 'Maximum rating is 5'),
+  bookId: z
+    .number({
+      required_error: 'Book ID is required.',
+      invalid_type_error: 'Book ID must be a number.',
+    })
+    .int()
+    .min(1, 'Book ID must be at least 1.'),
+});
+
+export type CreateReviewBody = z.infer<typeof createReviewSchema>;
+
+export const updateReviewSchema = z.object({
+  comment: z
+    .string()
+    .max(500, 'Comment must be 500 characters or less')
+    .optional(),
+  rating: z
+    .number()
+    .int()
+    .min(1, 'Minimum rating is 1')
+    .max(5, 'Maximum rating is 5'),
+});
+
+export type UpdateReviewBody = z.infer<typeof updateReviewSchema>;

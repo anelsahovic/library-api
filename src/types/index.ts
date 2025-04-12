@@ -69,3 +69,20 @@ export interface CreateFavoriteBody {
 export interface DeleteFavoriteParams {
   bookId: string;
 }
+
+// REVIEWS TYPES
+export interface GetReviewsParams {
+  bookId: string;
+}
+
+export interface ShowReviewParams {
+  reviewId: string;
+}
+
+export interface UpdateReviewParams {
+  reviewId: string;
+}
+
+export interface DeleteReviewParams {
+  reviewId: string;
+}
