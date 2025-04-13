@@ -11,9 +11,7 @@ export const index: RequestHandler = async (req, res, next) => {
   const authUserId = req.session.userId;
 
   try {
-    if (!authUserId) throw createHttpError(401, 'Not authenticated.');
-
-    const favorites = await getFavorites(authUserId);
+    const favorites = await getFavorites(authUserId!);
 
     if (!favorites) throw createHttpError(404, 'No favorites found.');
 
@@ -34,11 +32,9 @@ export const store: RequestHandler<
   const { bookId } = req.body;
 
   try {
-    if (!authUserId) throw createHttpError(401, 'Not authenticated.');
-
     if (!bookId) throw createHttpError(400, 'No book selected.');
 
-    const newFavoriteBook = await addBookToFavorites(authUserId, bookId);
+    const newFavoriteBook = await addBookToFavorites(authUserId!, bookId);
 
     res.status(201).json(newFavoriteBook);
   } catch (error) {
@@ -57,11 +53,9 @@ export const destroy: RequestHandler<
   const bookId = parseInt(req.params.bookId);
 
   try {
-    if (!authUserId) throw createHttpError(401, 'Not authenticated.');
-
     if (!bookId) throw createHttpError(400, 'No book selected.');
 
-    await removeBookFromFavorites(authUserId, bookId);
+    await removeBookFromFavorites(authUserId!, bookId);
 
     res.sendStatus(204);
   } catch (error) {

@@ -84,9 +84,7 @@ export const store: RequestHandler<
 
   const { comment, rating, bookId } = req.body;
   try {
-    if (!authUserId) throw createHttpError(401, 'Not authenticated.');
-
-    const review = await createReview(authUserId, {
+    const review = await createReview(authUserId!, {
       comment,
       rating,
       bookId,
@@ -110,12 +108,10 @@ export const update: RequestHandler<
   const { comment, rating } = req.body;
 
   try {
-    if (!authUserId) throw createHttpError(401, 'Not authenticated.');
-
     if (!reviewIdToUpdate)
       throw createHttpError(400, 'Please provide review to be updated');
 
-    const updatedReview = await updateReview(authUserId, reviewIdToUpdate, {
+    const updatedReview = await updateReview(authUserId!, reviewIdToUpdate, {
       comment,
       rating,
     });
@@ -137,12 +133,10 @@ export const destroy: RequestHandler<
   const reviewIdToDelete = parseInt(req.params.reviewId);
 
   try {
-    if (!authUserId) throw createHttpError(401, 'Not authenticated.');
-
     if (!reviewIdToDelete)
       throw createHttpError(400, 'Please provide review to be updated');
 
-    await deleteReview(authUserId, reviewIdToDelete);
+    await deleteReview(authUserId!, reviewIdToDelete);
 
     res.sendStatus(204);
   } catch (error) {

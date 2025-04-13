@@ -12,6 +12,7 @@ import session from 'express-session';
 import * as session2 from 'express-session';
 import dotenv from 'dotenv';
 import connectMySQLSession from 'express-mysql-session';
+import { requireAuth } from './middlewares/auth';
 
 dotenv.config();
 const SESSION_SECRET =
@@ -48,12 +49,12 @@ app.use(
 );
 
 app.use('/api/auth', authRoutes);
-app.use('/api/books', booksRoutes);
-app.use('/api/authors', authorsRoutes);
-app.use('/api/genres', genresRoutes);
-app.use('/api/publishers', publishersRoutes);
-app.use('/api/favorites', favoritesRoutes);
-app.use('/api/reviews', reviewsRoutes);
+app.use('/api/books', requireAuth, booksRoutes);
+app.use('/api/authors', requireAuth, authorsRoutes);
+app.use('/api/genres', requireAuth, genresRoutes);
+app.use('/api/publishers', requireAuth, publishersRoutes);
+app.use('/api/favorites', requireAuth, favoritesRoutes);
+app.use('/api/reviews', requireAuth, reviewsRoutes);
 
 app.use((req, res, next) => {
   next(createHttpError(404, 'Endpoint Not Found!'));

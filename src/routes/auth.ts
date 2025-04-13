@@ -2,10 +2,11 @@ import express from 'express';
 import { validateData } from '../middlewares/validateData';
 import { loginUserSchema, registerUserSchema } from '../zodSchemas/schemas';
 import * as AuthController from '../controllers/auth';
+import { requireAuth } from '../middlewares/auth';
 
 const router = express.Router();
 
-router.get('/', AuthController.getAuthUser);
+router.get('/', requireAuth, AuthController.getAuthUser);
 
 router.post(
   '/register',

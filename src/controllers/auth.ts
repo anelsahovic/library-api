@@ -4,12 +4,8 @@ import { getUserFromDb, loginUser, registerUser } from '../services/auth';
 import createHttpError from 'http-errors';
 
 export const getAuthUser: RequestHandler = async (req, res, next) => {
-  const authUserId = req.session.userId;
-
   try {
-    if (!authUserId) throw createHttpError(401, 'User not authenticated.');
-
-    const user = await getUserFromDb(authUserId);
+    const user = await getUserFromDb(req.session.userId!);
 
     res.status(200).json(user);
   } catch (error) {
