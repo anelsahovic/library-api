@@ -7,7 +7,10 @@
     "build": "tsc",
     "lint": "eslint . --ext .ts",
     "start": "nodemon src/server.ts",
-    "prisma": "prisma"
+    "db:reset": "prisma migrate reset --force --skip-generate "
+  },
+  "prisma": {
+    "seed": "ts-node --transpile-only prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
