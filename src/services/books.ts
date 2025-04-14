@@ -5,13 +5,49 @@ import { CreateBookBody, UpdateBookBody } from '../zodSchemas/schemas';
 const prisma = new PrismaClient();
 
 export async function getBooks() {
-  return await prisma.book.findMany();
+  return await prisma.book.findMany({
+    include: {
+      author: {
+        select: {
+          name: true,
+        },
+      },
+      genre: {
+        select: {
+          name: true,
+        },
+      },
+      publisher: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
 }
 
 export async function getBookById(bookId: number) {
   return await prisma.book.findUnique({
     where: {
       id: bookId,
+    },
+    include: {
+      author: {
+        select: {
+          name: true,
+          bio: true,
+        },
+      },
+      genre: {
+        select: {
+          name: true,
+        },
+      },
+      publisher: {
+        select: {
+          name: true,
+        },
+      },
     },
   });
 }
